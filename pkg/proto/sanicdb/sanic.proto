@@ -1,0 +1,99 @@
+syntax = "proto3";
+option go_package = "../../proto/sanicdb";
+
+package sanicdb;
+
+service SanicDB{
+        rpc GET(GETRequest) returns (GETReply);
+        rpc SET(SETRequest) returns (SETReply);
+        rpc cmd(CMD) returns (CMDResp);
+}
+
+//#####Streams 
+//
+//Client-side streams
+//get
+
+
+message GETReq{
+    repeated Lexi lexi = 1;
+    repeated Num nums = 2; 
+}
+message Lexi{
+    string doc = 1; 
+    string key = 2; 
+    bytes  value = 3; 
+}
+message Num{
+    string doc = 1; 
+    uint32 key = 2; 
+    bytes value = 3; 
+}
+
+message GETRequest{
+    optional GETlexi lexi = 1;
+    optional GETnums nums = 2;
+}
+message GETlexi{
+    //
+    map<string, uint32> index = 1;
+    repeated string docs = 2;
+    repeated string keys = 3;
+}
+message GETnums{
+    map<uint32, uint32> index = 1;
+    repeated string docs = 2;
+    repeated uint32 keys = 3;
+}
+//Set
+message SETRequest{
+    oneof req {
+        SETlexi lexi = 1;
+        SETnums nums = 2;
+    }
+}
+message SETlexi{
+    map<string, uint32> index = 1;
+    repeated string docs = 2;
+    repeated string keys = 3;
+    repeated bytes values = 4;
+}
+message SETnums{
+    map<uint32, uint32> index = 1;
+    repeated string docs = 2;
+    repeated uint32 keys = 3;
+    repeated bytes values = 4;
+}
+//
+//Server-side Stream
+message GETReply{
+    repeated string docs = 1;
+    repeated bytes keys = 2;
+    repeated bytes values = 3; 
+    optional GetError err = 4; 
+}
+message SETReply{
+    repeated string docs = 1;
+    repeated bytes keys = 2;
+    optional SetError err = 3; 
+}
+//###### CMD 
+//
+//CMD
+message CMD{
+    string type = 1;
+    repeated string cmds = 2;
+}
+message CMDResp{
+    repeated string out = 2;
+}
+
+//###### Errors
+//
+//ERRORS
+message SetError{
+    repeated string err = 1;
+}
+message GetError{
+    repeated string err = 1;
+}
