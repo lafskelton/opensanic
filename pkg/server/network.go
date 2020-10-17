@@ -8,7 +8,7 @@ import (
 	"net"
 	"sync"
 
-	pb "github.com/lafskelton/opensanic/pkg/proto/sanicdb"
+	pb "github.com/lafskelton/opensanic/pkg/server/proto/sanicdb"
 	"google.golang.org/grpc"
 )
 

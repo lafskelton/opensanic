@@ -7,9 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/lafskelton/sanicdb/pkg/lexistore"
-	"github.com/lafskelton/sanicdb/pkg/options"
-	"github.com/lafskelton/sanicdb/pkg/store"
+	"github.com/lafskelton/opensanic/pkg/options"
+	"github.com/lafskelton/opensanic/pkg/store"
 )
 
 //Testing
@@ -23,7 +22,7 @@ type SanicDB struct {
 	status  sanicStatus
 	options options.SanicService
 	docs    map[string]*store.DocumentStore
-	ldocs   map[string]*lexistore.DocumentStore
+	//ldocs   map[string]*lexistore.DocumentStore
 	S
 	Connected []net.Conn
 }
@@ -64,11 +63,11 @@ func StartService() *SanicDB {
 			ok:  true,
 			err: nil,
 		},
-		docs:  make(map[string]*store.DocumentStore),
-		ldocs: make(map[string]*lexistore.DocumentStore),
+		docs: make(map[string]*store.DocumentStore),
+		//ldocs: make(map[string]*lexistore.DocumentStore),
 	}
 	sanic.NewNumsDocumentStore("test")
-	sanic.NewLexiDocumentStore("test")
+	//sanic.NewLexiDocumentStore("test")
 	// this enables gRPC in a routine
 
 	return &sanic
